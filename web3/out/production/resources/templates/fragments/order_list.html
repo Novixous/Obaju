@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<form method="post" th:fragment="order_list_content" action="checkout1.html">
+
+    <h1>Shopping cart</h1>
+    <p class="text-muted">You currently have [[${totalItems}]] item(s) in your cart.</p>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="2">Product</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Discount</th>
+                <th colspan="2">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="orderDetail: ${orderList}">
+                    <td>
+                        <a href="#">
+                            <img th:src="${orderDetail.productId.imageList[0].path}" alt="White Blouse Armani"/>
+                        </a>
+                    </td>
+                    <td><a href="#" th:text="${orderDetail.productId.name}">White Blouse Armani</a>
+                    </td>
+                    <td>
+                        <input type="number" th:value="${orderDetail.quantity}"
+                               th:prodId="${orderDetail.productId.id}"
+                               class="form-control"/>
+                    </td>
+                    <td>$[[${orderDetail.productId.price}]]</td>
+                    <td>$0.00</td>
+                    <td>$[[${orderDetail.total}]]</td>
+                    <td><a href="#"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="5">Total</th>
+                <th colspan="2">$[[${totalPrice}]]</th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+    <!-- /.table-responsive -->
+
+    <div class="box-footer">
+        <div class="pull-left">
+            <a href="category.html" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+        </div>
+        <div class="pull-right">
+            <button type="button" id="update-basket" class="btn btn-default">
+                <i class="fa fa-refresh"></i> Update basket
+            </button>
+            <a type="submit" th:href="@{'/checkout/' + ${orderList[0].orderId.id}}" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    <script>
+        var total = [[${totalItems}]];
+        $('#total-items').text(total + ' item in cart');
+    </script>
+</form>
+</body>
+</html>
